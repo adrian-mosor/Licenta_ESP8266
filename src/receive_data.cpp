@@ -19,7 +19,7 @@ unsigned long channel_id_2 = 2071204;
 const char* apiKey_3 = "1ZCLKDX2REMRH31O";
 unsigned long channel_id_3 = 2071205;
 
-void receive_data_and_sync(){
+void receive_data_and_sync(){   //receive data from MEGA from sensors and send them to ThingSpeak
 
     if (Serial.available()) {   //example of printing on serial monitor by a variable
 
