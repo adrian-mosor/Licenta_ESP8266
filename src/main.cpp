@@ -4,6 +4,7 @@
 
 #include "wireless_conn.h"
 #include "receive_data.h"
+#include "heartbeat.h"
 #include <ESP8266WebServer.h>
 
 ESP8266WebServer server(80);    //80 is the default port for http
@@ -41,6 +42,7 @@ void handleRootPath(){  //handler for the root path, triggered from server.handl
     }
     else{
         
+        Serial.println("Wrong message to server");
         server.send(200, "text/plain", "ESP8266: Wrong message to server");  //response back to the sender
     }
 
@@ -75,5 +77,6 @@ void loop(){
     server.handleClient();  //handle the incoming requests (from Android)
 
     receive_data_and_sync(); //receive data from MEGA from sensors and send them to ThingSpeak
-    
+
+    send_heartbeat(); //send heartbeat listened by Android App   
 }
