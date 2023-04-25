@@ -39,6 +39,50 @@ void handleRootPath(){  //handler for the root path, triggered from server.handl
 
         Serial1.println(message);
         server.send(200, "text/plain", "Got the message rgb_reset");  //response back to the sender
+    }else
+    if (message.startsWith("thingspeak_sync")) {    //the format sent from AndroidApp would be thingspeak_sync/chID1/chID2/chID3/APIKey1/APIKey2/APIKey3
+        
+        //find the indices of the separators ("/")
+        int index1 = message.indexOf("/");
+        int index2 = message.indexOf("/", index1 + 1);
+        int index3 = message.indexOf("/", index2 + 1);
+        int index4 = message.indexOf("/", index3 + 1);
+        int index5 = message.indexOf("/", index4 + 1);
+        int index6 = message.indexOf("/", index5 + 1);
+        int index7 = message.indexOf("/", index6 + 1);
+
+        //extract the values between the separators
+        String chID1 = message.substring(index1 + 1, index2);
+        String chID2 = message.substring(index2 + 1, index3);
+        String chID3 = message.substring(index3 + 1, index4);
+        String apiKey1 = message.substring(index4 + 1, index5);
+        String apiKey2 = message.substring(index5 + 1, index6);
+        String apiKey3 = message.substring(index6 + 1, index7);
+
+        //process the extracted values
+        Serial.println("Received ThingSpeak credentials:");
+        Serial.println("chID1: " + chID1);
+        Serial.println("chID2: " + chID2);
+        Serial.println("chID3: " + chID3);
+        Serial.println("apiKey1: " + apiKey1);
+        Serial.println("apiKey2: " + apiKey2);
+        Serial.println("apiKey3: " + apiKey3);
+
+        //reponseMessage debug:
+        String responseMessage = "Got the thingspeak_sync message";
+        responseMessage += "\nReceived ThingSpeak credentials:\n";
+        responseMessage += "chID1: " + chID1 + "\n";
+        responseMessage += "chID2: " + chID2 + "\n";
+        responseMessage += "chID3: " + chID3 + "\n";
+        responseMessage += "apiKey1: " + apiKey1 + "\n";
+        responseMessage += "apiKey2: " + apiKey2 + "\n";
+        responseMessage += "apiKey3: " + apiKey3;
+
+        //process the extracted values
+        store_credentials_EEPROM(chID1.toInt(), chID2.toInt(), chID3.toInt(), apiKey1.c_str(), apiKey2.c_str(), apiKey3.c_str());
+
+        server.send(200, "text/plain", responseMessage);
+        // server.send(200, "text/plain", responseMessage);
     }
     else{
         
@@ -47,7 +91,6 @@ void handleRootPath(){  //handler for the root path, triggered from server.handl
     }
 
 }
-
 
 void setup(){
 
@@ -63,10 +106,16 @@ void setup(){
 
     ThingSpeak.begin(client);
     Serial.println("ThingSpeak succesfully started!");
+
+    // STORE EEPROM (DO NOT ABUSE OF THIS!)
+    store_credentials_EEPROM(7467018, 5222316, 2046752, "BZRQYNFYLZWGWLFK", "KNLHOKSAZWMZWIEO", "ALQFPZQVFTDPXQZS");
+    Serial.println("Setup(): Stored default/admin ThingSpeak credentials.");
+
+    data_setup_to_sync();
     
     server.on("/", handleRootPath); //associate the handler function in order to respond to http request
     server.begin();
-    Serial.println("Production: ESP8266 Server listening");
+    Serial.println("Production: ESP8266 Server listening...");
 
     digitalWrite(LED_BUILTIN, LOW); // Turn the LED on - LED indicator that esp8266 is connected to the internet and is listening
 

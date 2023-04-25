@@ -2,24 +2,19 @@
 #include <Arduino.h>
 
 #define ADRESS_TEST 100
-#define FIXED_SIZE 6 // qsid length
+#define FIXED_SIZE 16 // qsid length
 
-void writeEEPROM(int offset, String str)
+void writeStringEEPROM(int offset, const String& str)
 {
-    // EEPROM.begin(100);
     EEPROM.put(offset, str);
     EEPROM.commit(); // save changes to EEPROM
 
     Serial.print("Wrote to EEPROM: ");
     Serial.println(str);
-
-    // EEPROM.end();
 }
 
-void readEEPROM(int offset)
+String readStringEEPROM(int offset)
 {
-    // EEPROM.begin(100);
-
     String strread;
     EEPROM.get(offset, strread);
     strread = strread.substring(0, FIXED_SIZE);
@@ -29,20 +24,24 @@ void readEEPROM(int offset)
     Serial.print("Extracted string from EEPROM: ");
     Serial.println(strread);
 
-    // EEPROM.end();
+    return strread;
 }
 
 void setup()
 {
     Serial.begin(9600);
-    EEPROM.begin(128); // Initialize EEPROM with the required size
+    EEPROM.begin(256); // Initialize EEPROM with the required size
 
     // writeEEPROM();
     // readEEPROM();
 
-    String qsid = "Welc20";
-    writeEEPROM(ADRESS_TEST, qsid);
-    readEEPROM(ADRESS_TEST);
+    String qsid = "KPCTNSAJXKEBSPLS";
+    String resstr;
+    writeStringEEPROM(ADRESS_TEST, qsid);
+    resstr = readStringEEPROM(ADRESS_TEST);
+
+    Serial.print("FINAL resstr extracted: ");
+    Serial.println(resstr);
 }
 
 void loop()
