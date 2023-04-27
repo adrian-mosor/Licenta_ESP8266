@@ -80,6 +80,11 @@ void handleRootPath(){  //handler for the root path, triggered from server.handl
 
         //process the extracted values
         store_credentials_EEPROM(chID1.toInt(), chID2.toInt(), chID3.toInt(), apiKey1.c_str(), apiKey2.c_str(), apiKey3.c_str());
+        data_setup_to_sync();   //get proper values stored in EEPROM
+
+        // Serial.println("---------------------------------------");
+        // Serial.println(responseMessage);
+        // Serial.println("[<>] [<>] [<>] [<>] [<>] [<>] [<>] [<>]");
 
         server.send(200, "text/plain", responseMessage);
         // server.send(200, "text/plain", responseMessage);
@@ -108,8 +113,8 @@ void setup(){
     Serial.println("ThingSpeak succesfully started!");
 
     // STORE EEPROM (DO NOT ABUSE OF THIS!)
-    store_credentials_EEPROM(7467018, 5222316, 2046752, "BZRQYNFYLZWGWLFK", "KNLHOKSAZWMZWIEO", "ALQFPZQVFTDPXQZS");
-    Serial.println("Setup(): Stored default/admin ThingSpeak credentials.");
+    // store_credentials_EEPROM(2123504, 2123505, 2123506, "2EC6VJW7CNBAFMSK", "K5VMZMJQWIG6M68X", "G7J02CAXBRYS1YZL");
+    // Serial.println("Setup(): Stored default/admin ThingSpeak credentials.");
 
     data_setup_to_sync();
     

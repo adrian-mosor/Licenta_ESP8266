@@ -32,17 +32,16 @@ void data_setup_to_sync(){
         EEPROM.end();
 
         Serial.println("[<>] Credentials read from ESP:");
-        Serial.print("CHANNEL_ID_1: "); Serial.println(channel_id_1);
-        Serial.print("SAPIKEY_1: "); Serial.println(sApiKey_1);
-        Serial.print("APIKEY_1: "); Serial.println(apiKey_1);
         
+        Serial.print("CHANNEL_ID_1: "); Serial.println(channel_id_1);
         Serial.print("CHANNEL_ID_2: "); Serial.println(channel_id_2);
-        Serial.print("SAPIKEY_2: "); Serial.println(sApiKey_2);
-        Serial.print("APIKEY_2: "); Serial.println(apiKey_2);
-
         Serial.print("CHANNEL_ID_3: "); Serial.println(channel_id_3);
-        Serial.print("SAPIKEY_3: "); Serial.println(sApiKey_3);
+
+        Serial.print("APIKEY_1: "); Serial.println(apiKey_1);
+        Serial.print("APIKEY_2: "); Serial.println(apiKey_2);
         Serial.print("APIKEY_3: "); Serial.println(apiKey_3);
+        
+
         Serial.println("[<>] [<>] [<>] [<>] [<>] [<>] [<>] [<>]");
 
         Serial.println();
@@ -98,6 +97,15 @@ void receive_data_and_sync()
         }
 
         Serial.println("Successfully sent data to ThingSpeak!");
+
+        String tempCCredentials = "temperatureC: " + String(channel_id_1) + " " + apiKey_1;
+        String tempFCredentials = "temperatureF: " + String(channel_id_2) + " " + apiKey_2;
+        String humidityCredentials = "Humidity: " + String(channel_id_3) + " " + apiKey_3;
+        
+        Serial.println(tempCCredentials);
+        Serial.println(tempFCredentials);
+        Serial.println(humidityCredentials);
+
         Serial.println("-------------------------------------------------");
         Serial.println();
     }

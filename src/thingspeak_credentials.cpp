@@ -5,7 +5,9 @@ void store_credentials_EEPROM (const unsigned long channel_id_1, const unsigned 
     const char* apiKey_1, const char* apiKey_2, const char* apiKey_3)
 {
     //do NOT abuse of this feature as EEPROM/flash-memory has limited write/erase cycles!
-
+    
+    Serial.println("!!!STORING CREDENTIALS INTO EEPROM!!!");
+    
     EEPROM.begin(256);  //allocate a buffer in RAM of 256 bytes
     
     for (size_t i = 0; i < MAX_APIKEY_LENGTH; ++i) {
@@ -91,10 +93,10 @@ String get_APIKey_EEPROM(const int numberCase){
             APIKey = String(apiKeyStr);
 
             
-            Serial.println("---EEPROM DEBUG GET---");
-            Serial.println(apiKeyStr);
-            Serial.println(APIKey);
-            Serial.println("---EEPROM DEBUG GET---");
+            // Serial.println("---EEPROM DEBUG GET---");
+            // Serial.println(apiKeyStr);
+            // Serial.println(APIKey);
+            // Serial.println("---EEPROM DEBUG GET---");
 
             // Serial.print("[<>] Getting from ESP APIKey temperatureC: ");
             // Serial.println(APIKey);
