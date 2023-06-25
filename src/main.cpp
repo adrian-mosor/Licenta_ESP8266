@@ -32,6 +32,7 @@ void handleRootPath(){  //handler for the root path, triggered from server.handl
 
     if(message.equals("rgb_hi")){  //received correct message from http request
 
+        Serial.println("ESP: SENDING REQUEST TO MEGA!");
         Serial1.println(message);
         server.send(200, "text/plain", "Got the message rgb_hi");  //response back to the sender
     }else

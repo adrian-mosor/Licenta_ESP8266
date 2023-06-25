@@ -3,18 +3,18 @@
 void setup_Wifi()
 {
 
-    // Setup serial port
+    //setup serial port
     Serial.begin(9600);
     Serial.println();
 
     delay(1000);
-    // Begin WiFi
+    //begin WiFi
     WiFi.begin(WIFI_SSID, WIFI_PASS);
 
-    // Connecting to WiFi...
+    //connecting to WiFi...
     Serial.print("Connecting to ");
     Serial.print(WIFI_SSID);
-    // Loop continuously while WiFi is not connected
+    //loop continuously while WiFi is not connected
     while (WiFi.status() != WL_CONNECTED)
     {
         delay(100);
@@ -24,7 +24,7 @@ void setup_Wifi()
     WiFi.setAutoReconnect(true);
     WiFi.persistent(true);
 
-    // Connected to WiFi
+    //connected to WiFi
     Serial.println();
     Serial.print("Connected! IP address: (new function)");
     Serial.println(WiFi.localIP());
